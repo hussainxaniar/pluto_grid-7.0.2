@@ -13,6 +13,9 @@ class PlutoPagination extends PlutoStatefulWidget {
   const PlutoPagination(
     this.stateManager, {
     this.pageSizeToMove,
+    required this.activeIconColor,
+    required this.disabledIconColor,
+    required this.currentPageNumberColor,
     super.key,
   }) : assert(pageSizeToMove == null || pageSizeToMove > 0);
 
@@ -25,6 +28,9 @@ class PlutoPagination extends PlutoStatefulWidget {
   ///
   /// If this value is set to 1, the next previous page is moved by one page.
   final int? pageSizeToMove;
+  final Color activeIconColor;
+  final Color disabledIconColor;
+  final Color currentPageNumberColor;
 
   @override
   PlutoPaginationState createState() => PlutoPaginationState();
@@ -174,8 +180,8 @@ class PlutoPaginationState extends _PlutoPaginationStateWithChange {
       fontSize:
           isCurrentIndex ? stateManager.configuration.style.iconSize : null,
       color: isCurrentIndex
-          ? stateManager.configuration.style.activatedBorderColor
-          : stateManager.configuration.style.iconColor,
+          ? widget.currentPageNumberColor
+          : widget.activeIconColor,
     );
   }
 
@@ -202,10 +208,10 @@ class PlutoPaginationState extends _PlutoPaginationStateWithChange {
       builder: (_, size) {
         _maxWidth = size.maxWidth;
 
-        final Color iconColor = stateManager.configuration.style.iconColor;
+        final Color iconColor = widget.activeIconColor;
 
         final Color disabledIconColor =
-            stateManager.configuration.style.disabledIconColor;
+            widget.disabledIconColor;
 
         return SizedBox(
           width: _maxWidth,
